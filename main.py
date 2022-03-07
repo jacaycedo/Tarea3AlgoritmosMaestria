@@ -1,5 +1,6 @@
 import sys
 import math
+import time
 from random import randint
 
 def esPrimo(n):
@@ -39,17 +40,16 @@ def solveModularEquation(a,b,n):
     return answer
 
 def rsa (p , q):
-    print("For the values of p and q we have the following internal values for rsa")
+    print("For the values of p and q we have the following internal values for rsa:")
     n = p*q
     m = (p-1)*(q-1)
     e = 3
-    while gcd2(m,e)[0] != 1 :
+    while gcd2(e,m)[0] != 1 :
         e +=2
     d = solveModularEquation(e,1,m)[0]
     print("\t n = {} \n\t m = {} \n\t e = {} \n\t d = {}".format(n,m,e,d))
-    print("La llave publica es la tupla: \n\t<e,n> = <{},{}> \n\tSe define por:  \n\t\t P(x; e,n) = x^e mod n \n\t\t P(x; {},{}) = x^{} mod {}".format(e,n, e,n,e,n))
-    print("La llave privada es la tupla: \n\t<d,n> = <{},{}> \n\tSe define por:  \n\t\t S(y; d,n) = y^d mod n \n\t\t P(y; {},{}) = y^{} mod {}".format(d,n, d,n,d,n))
-
+    print("The public key is the tuple: \n\t<e,n> = <{},{}> \n\tDefined by:  \n\t\t P(x; e,n) = x^e mod n \n\t\t P(x; {},{}) = x^{} mod {}".format(e,n, e,n,e,n))
+    print("The private key is the tuple: \n\t<d,n> = <{},{}> \n\tDefined by:  \n\t\t S(y; d,n) = y^d mod n \n\t\t P(y; {},{}) = y^{} mod {}".format(d,n, d,n,d,n))
     
 # Argumests list
 # 0: File Name
@@ -58,6 +58,7 @@ def rsa (p , q):
 if __name__== "__main__" :
     arguments = sys.argv
     lowerRange, higherRange = int(arguments[1]), int(arguments[2])
+    ini = time.time()
     print("Verifying the data ")
     print("Range  \n\tMinimun Range: {} \n\tMaximum range is {} \n".format(lowerRange, higherRange))
     prime1 = randint(lowerRange, higherRange)
@@ -65,10 +66,12 @@ if __name__== "__main__" :
         prime1 = randint(lowerRange, higherRange)
     
     prime2 = randint(lowerRange, higherRange)
-    while not esPrimo(prime2):
+    while not esPrimo(prime2) or prime1==prime2 :
         prime2 = randint(lowerRange, higherRange)
     print("The generated numbers are: \n\t p = {}\n\t q = {} \n".format(prime1, prime2))
     print("Calculating RSA ...")
     rsa(prime1, prime2)
+    fin = time.time()
+    print("It lasted {} s to complete the process".format((fin-ini)))
 
 
